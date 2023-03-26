@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "capturemodule.h"
+#include <QGraphicsScene>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ScreenCloneServerWindow; }
@@ -19,5 +20,9 @@ public:
 private:
     Ui::ScreenCloneServerWindow *ui;
     CaptureModule capMod_;
+    QGraphicsScene *scene_;
+
+private slots:
+  void handleCaptureButton();
 };
 #endif // SCREENCLONESERVERWINDOW_H
