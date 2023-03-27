@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "capturemodule.h"
 #include <QGraphicsScene>
+#include "servernetworkmodule.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ScreenCloneServerWindow; }
@@ -21,6 +22,7 @@ private:
     Ui::ScreenCloneServerWindow *ui;
     CaptureModule capMod_;
     QGraphicsScene *scene_;
+    ServerNetworkModule netMod_;
 
     QImage getImage(int &x, int &y, int &width, int &height);
 

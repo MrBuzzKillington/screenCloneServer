@@ -3,23 +3,26 @@
 #include<QPixmap>
 #include<QImage>
 #include<QScreen>
-
+#include "servernetworkmodule.h"
 
 ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::ScreenCloneServerWindow),
     capMod_(),
-    scene_()
+    scene_(),
+    netMod_()
 {
     ui->setupUi(this);
-
-
     int capX = ui->xSpinBox_->value();
     int capY = ui->ySpinBox_->value();
     int capWidth = ui->widthSpinBox_->value();
     int capHeight = ui->heightSpinBox_->value();
     capMod_.initCapture(capX, capY, capWidth, capHeight);
 
+
+    //        = new ServerNetworkModule(QHostAddress::LocalHost, 1234);
+
+    //connect signals
     connect( ui->captureBtn_, &QPushButton::released, this, &ScreenCloneServerWindow::handleCaptureButton);
 }
 
