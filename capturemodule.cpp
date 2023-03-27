@@ -1,5 +1,7 @@
 #include "capturemodule.h"
 
+#include<QScreen>
+
 int CaptureModule::currentId_ = 0;
 
 CaptureModule::CaptureModule(QWidget *parent)
@@ -66,3 +68,6 @@ HBITMAP CaptureModule::captureImage()
     DeleteDC(BitmapDC);
     return capturedBitmap_;
 }
+
+
+

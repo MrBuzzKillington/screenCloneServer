@@ -22,6 +22,8 @@ private:
     CaptureModule capMod_;
     QGraphicsScene *scene_;
 
+    QImage getImage(int &x, int &y, int &width, int &height);
+
 private slots:
   void handleCaptureButton();
 };
