@@ -10,7 +10,7 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     ui(new Ui::ScreenCloneServerWindow),
     capMod_(),
     scene_(),
-    netMod_()
+    netModPtr_()
 {
     ui->setupUi(this);
     int capX = ui->xSpinBox_->value();
@@ -19,6 +19,10 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     int capHeight = ui->heightSpinBox_->value();
     capMod_.initCapture(capX, capY, capWidth, capHeight);
 
+
+    netModPtr_.reset(new ServerNetworkModule(QHostAddress::LocalHost, 1234));
+
+    //ServerNetworkModule(QHostAddress clientAddr, int clientPort)
 
     //        = new ServerNetworkModule(QHostAddress::LocalHost, 1234);
 
@@ -71,6 +75,8 @@ void ScreenCloneServerWindow::handleCaptureButton()
        viewSize.setHeight(image.height());
        ui->captureImgView_->setGeometry(viewSize);
        ui->captureImgView_->setScene(scene_);
+
+        netModPtr_->sendImage(image);
 
 }
 

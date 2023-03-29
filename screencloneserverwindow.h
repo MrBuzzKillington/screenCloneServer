@@ -22,7 +22,7 @@ private:
     Ui::ScreenCloneServerWindow *ui;
     CaptureModule capMod_;
     QGraphicsScene *scene_;
-    ServerNetworkModule netMod_;
+    std::unique_ptr<ServerNetworkModule> netModPtr_;
 
     QImage getImage(int &x, int &y, int &width, int &height);
 

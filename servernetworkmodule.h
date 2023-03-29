@@ -8,12 +8,14 @@
 class ServerNetworkModule
 {
 public:
-    ServerNetworkModule(); //QHostAddress addr, quint16 port
+    ServerNetworkModule(QHostAddress addr, int port); //QHostAddress addr, quint16 port
+    ~ServerNetworkModule();
 
+    void sendImage( QImage imgToSend );
 
 
 private:
-    //QUdpSocket* socketPtr_;
+    std::unique_ptr<QUdpSocket> socketPtr_;
     int imageSeq_;
     QHostAddress clientAddr_;
     int clientPort_;
