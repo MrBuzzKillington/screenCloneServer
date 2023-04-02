@@ -7,7 +7,9 @@
 
 class ServerNetworkModule
 {
+
 public:
+
     ServerNetworkModule(QHostAddress addr, int port); //QHostAddress addr, quint16 port
     ~ServerNetworkModule();
 

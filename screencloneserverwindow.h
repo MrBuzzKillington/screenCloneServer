@@ -21,12 +21,15 @@ public:
 private:
     Ui::ScreenCloneServerWindow *ui;
     CaptureModule capMod_;
-    QGraphicsScene *scene_;
     std::unique_ptr<ServerNetworkModule> netModPtr_;
+    std::unique_ptr<QTimer> sendTimer_;
 
     QImage getImage(int &x, int &y, int &width, int &height);
+    void processImageEvent(bool preview);
 
 private slots:
   void handleCaptureButton();
+  void handleStreamButton();
+  void handleTimerEvent();
 };
 #endif // SCREENCLONESERVERWINDOW_H
