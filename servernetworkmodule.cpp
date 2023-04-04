@@ -1,21 +1,44 @@
 #include "servernetworkmodule.h"
 #include <QImage>
 
-ServerNetworkModule::ServerNetworkModule(QHostAddress addr, int port):
-    socketPtr_(),
-    imageSeq_(0)
+ServerNetworkModule::ServerNetworkModule(QObject *parent, int port):
+    QTcpServer(parent),
+    imageSeq_(0),
+    clientList_()
 {
 
-    clientAddr_ = addr;
     clientPort_ = port;
-
-    socketPtr_.reset( new QUdpSocket() );
-
 }
+
 ServerNetworkModule::~ServerNetworkModule()
 {
-
+    qDebug() << "server removed";
 }
+
+
+void ServerNetworkModule::StartServer()
+{
+    if(listen(QHostAddress::Any, 1234))
+    {
+        qDebug() << "Server: started";
+    }
+    else
+    {
+        qDebug() << "Server: not started!";
+    }
+}
+
+void ServerNetworkModule::incomingConnection(qintptr socketId)
+{
+    // at the incoming connection, make a client
+    qDebug() << "New client connection";
+    MyClient *client = new MyClient(this);
+    client->SetSocket(socketId);
+    clientList_.push_back(client);
+}
+
+
+
 
 void ServerNetworkModule::sendImage( QImage imgToSend )
 {
@@ -39,41 +62,29 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
      QByteArray buf;
      QDataStream sBuff(&buf, QIODevice::WriteOnly);
 
-     bool messageDone = false;
-     while (messageDone == false )
+     payloadSize = imageQBA.size();
+
+     //reset the buffer
+     buf.clear();
+     sBuff << (quint16) 0x5C5C;
+     sBuff << (qint32) imageSeq_;
+     sBuff << (qint32)payloadSize;
+     sBuff << imageQBA;//.first(payloadSize);
+
+      bytesSent = bytesSent + buf.size();
+
+
+     for (int i=0;i<clientList_.size();i++)
      {
-        //break the image up into paylaod sized messages
-        if (imageQBA.size() > maxPayload)
-        {
-            payloadSize = maxPayload;
-        } else {
-            payloadSize = imageQBA.size();
-            messageDone=true;
-            packetType = 2;
-        }
-        //reset the buffer
-        buf.clear();
-        QDataStream sBuff(&buf, QIODevice::WriteOnly);
-        //qDebug() << "buff size after clear" << buf.size();
-        //Push on the values
-        //int sequence,frag#,PayloadSize,payload
-        sBuff << (quint8) packetType;
-        sBuff << (qint32)imageSeq_;
-        //qDebug() << "buff size with seq:" << buf.size();
-        sBuff << (qint32)fragment;
-        //qDebug() << "buff size with seq/frag:" << buf.size();
-        sBuff << (qint32)payloadSize;
-            //qDebug() << "buff size with seq/frag/pay:" << buf.size();
-        sBuff << imageQBA.first(payloadSize);
-        imageQBA.remove(0,payloadSize);
-            //qDebug() << "buff size" << buf.size() << " payload" << payloadSize << " imageSize" << imageQBA.size();
-        //Send the data
-         socketPtr_->writeDatagram(buf, clientAddr_, clientPort_);
-         fragment++;
-         packetType = 1;
-         bytesSent = bytesSent + buf.size();
-         //qDebug()<< "Sent" << buf.size() << " bytes for seq:" << imageSeq_;
-     }  //q8(type),Q32(seq),q32(frag),q32(payloadsize),qba(image payload)
+         MyClient* tempClient = clientList_.at(0); //get the element
+         clientList_.erase(clientList_.begin()); //remove it from the front
+         if (tempClient->isConnected())
+         {
+             tempClient->SendImage(buf);
+             clientList_.push_back(tempClient);
+             //qDebug() << "Sent image. ClientList :" << clientList_.size()  << "bytes Sent " << bytesSent;
+         }
+     }
 
     imageSeq_++;
 }

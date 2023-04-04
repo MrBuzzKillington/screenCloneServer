@@ -3,7 +3,7 @@
 #include<QPixmap>
 #include<QImage>
 #include<QScreen>
-#include "servernetworkmodule.h"
+
 #include <QTimer>
 
 ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
@@ -11,7 +11,8 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     ui(new Ui::ScreenCloneServerWindow),
     capMod_(),
     netModPtr_(),
-    sendTimer_()
+    sendTimer_(),
+    Server_()
 {
     ui->setupUi(this);
     int capX = ui->xSpinBox_->value();
@@ -21,8 +22,6 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     capMod_.initCapture(capX, capY, capWidth, capHeight);
 
 
-    netModPtr_.reset(new ServerNetworkModule(QHostAddress::LocalHost, 1234));
-
     //connect signals
     connect( ui->captureBtn_, &QPushButton::released, this, &ScreenCloneServerWindow::handleCaptureButton);
 
@@ -31,7 +30,8 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     sendTimer_.reset(new QTimer(this));
     connect(sendTimer_.get(), &QTimer::timeout, this, &ScreenCloneServerWindow::handleTimerEvent);
 
-    //connect(timer, &QTimer::timeout, this, QOverload<>::of(&AnalogClock::update));
+    Server_.reset(new ServerNetworkModule(this,1234));
+    Server_->StartServer();
 
 }
 
@@ -149,7 +149,9 @@ void ScreenCloneServerWindow::processImageEvent(bool preview)
          //this->adjustSize();
     }
 
-     netModPtr_->sendImage(image);
+    Server_->sendImage(image);
+
+
 }
 
 

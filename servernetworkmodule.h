@@ -1,27 +1,30 @@
 #ifndef SERVERNETWORKMODULE_H
 #define SERVERNETWORKMODULE_H
 
-#include<QtNetwork/QUdpSocket>
-#include<QtNetwork/QHostAddress>
-#include<QtNetwork/QLocalSocket>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QAbstractSocket>
+#include "myclient.h"
 
-class ServerNetworkModule
-{
+class ServerNetworkModule : public QTcpServer
+{    
+    Q_OBJECT
 
 public:
 
-    ServerNetworkModule(QHostAddress addr, int port); //QHostAddress addr, quint16 port
+    explicit ServerNetworkModule(QObject *parent = 0, int port = 1234); //QHostAddress addr, quint16 port
     ~ServerNetworkModule();
+    void StartServer();
 
     void sendImage( QImage imgToSend );
 
+protected:
+    void incomingConnection(qintptr socketId);
 
 private:
-    std::unique_ptr<QUdpSocket> socketPtr_;
     int imageSeq_;
-    QHostAddress clientAddr_;
     int clientPort_;
-
+    std::vector<MyClient*> clientList_;
 };
 
 #endif // SERVERNETWORKMODULE_H

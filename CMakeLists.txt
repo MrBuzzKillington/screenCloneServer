@@ -21,6 +21,10 @@ set(PROJECT_SOURCES
         capturemodule.cpp
         servernetworkmodule.h
         servernetworkmodule.cpp
+        myclient.cpp
+        myclient.h
+        mytask.cpp
+        mytask.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

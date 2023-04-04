@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include "servernetworkmodule.h"
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class ScreenCloneServerWindow; }
 QT_END_NAMESPACE
@@ -23,6 +24,7 @@ private:
     CaptureModule capMod_;
     std::unique_ptr<ServerNetworkModule> netModPtr_;
     std::unique_ptr<QTimer> sendTimer_;
+    std::unique_ptr<ServerNetworkModule> Server_;
 
     QImage getImage(int &x, int &y, int &width, int &height);
     void processImageEvent(bool preview);
