@@ -83,6 +83,6 @@ void MyClient::SendImage(QByteArray imgMsg)
         qDebug() << "tried to write to closed socket";
         return;
     }
-
+qDebug() << "wrote:" << imgMsg.size();
     socket->write(imgMsg);
 }

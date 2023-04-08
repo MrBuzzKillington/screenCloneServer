@@ -54,7 +54,6 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
      //TODO check bound state first
      int maxPayload = 1200;
      int fragment = 0;
-     int bytesSent = 0;
      int payloadSize = 0;
      quint8 packetType = 0;//0==first,1==mid,2==last
 
@@ -68,11 +67,9 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
      buf.clear();
      sBuff << (quint16) 0x5C5C;
      sBuff << (qint32) imageSeq_;
-     sBuff << (qint32)payloadSize;
-     sBuff << imageQBA;//.first(payloadSize);
-
-      bytesSent = bytesSent + buf.size();
-
+     sBuff << (qint32) payloadSize;
+     //sBuff << imageQBA;//.first(payloadSize);
+     sBuff << imageQBA;
 
      for (int i=0;i<clientList_.size();i++)
      {

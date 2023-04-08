@@ -151,7 +151,7 @@ void ScreenCloneServerWindow::processImageEvent(bool preview)
 
     Server_->sendImage(image);
 
-
+    // netModPtr_->sendImage(image);
 }
 
 

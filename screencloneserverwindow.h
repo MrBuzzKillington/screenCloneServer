@@ -19,6 +19,7 @@ public:
     ScreenCloneServerWindow(QWidget *parent = nullptr);
     ~ScreenCloneServerWindow();
 
+
 private:
     Ui::ScreenCloneServerWindow *ui;
     CaptureModule capMod_;
