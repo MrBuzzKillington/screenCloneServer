@@ -150,7 +150,7 @@
            <number>30000</number>
           </property>
           <property name="value">
-           <number>150</number>
+           <number>1800</number>
           </property>
          </widget>
         </item>
@@ -188,7 +188,7 @@
            <number>30000</number>
           </property>
           <property name="value">
-           <number>100</number>
+           <number>1024</number>
           </property>
          </widget>
         </item>
@@ -226,12 +226,12 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>50</width>
+            <width>100</width>
             <height>16777215</height>
            </size>
           </property>
           <property name="text">
-           <string>Dest IP</string>
+           <string>ClientsConnected</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -239,63 +239,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="destIP_0_">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <widget class="QLineEdit" name="connectedClients_">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>192</string>
-          </property>
-          <property name="maxLength">
-           <number>3</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="destIP_1_">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>168</string>
-          </property>
-          <property name="maxLength">
-           <number>3</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="destIP_2_">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -316,34 +263,6 @@
           </property>
           <property name="text">
            <string>0</string>
-          </property>
-          <property name="maxLength">
-           <number>3</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="destIP_3_">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>1</string>
           </property>
           <property name="maxLength">
            <number>3</number>
@@ -402,7 +321,7 @@
            <number>30</number>
           </property>
           <property name="value">
-           <number>10</number>
+           <number>20</number>
           </property>
          </widget>
         </item>

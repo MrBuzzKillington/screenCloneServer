@@ -46,7 +46,9 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
 
     QByteArray imageQBA;
     bool flag{1};
+
     QDataStream out(&imageQBA,QIODevice::ReadWrite);
+
     out << imgToSend << flag;
 
 

@@ -4,6 +4,7 @@
 #include<QImage>
 #include<QScreen>
 #include <QTimer>
+#include <QDateTime>
 
 ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     QMainWindow(parent),
@@ -14,8 +15,9 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     scene_(),
     capX_(10),
     capY_(10),
-    capWidth_(10),
-    capHeight_(10)
+    capWidth_(1800),
+    capHeight_(1024),
+    lastTime_(0)
 {
     ui->setupUi(this);
 
@@ -75,8 +77,7 @@ void ScreenCloneServerWindow::processImageEvent(bool preview)
          viewSize.setHeight(image.height());
          ui->captureImgView_->setGeometry(viewSize);
          ui->captureImgView_->setScene(scene_.get());
-         //ui->captureImgView_->adjustSize();
-         //this->adjustSize();
+
     }
     image.convertTo(QImage::Format_RGB16);
     Server_->sendImage(image);
@@ -113,6 +114,14 @@ void ScreenCloneServerWindow::handleStreamButton()
 //Slot to handle a send message event
 void ScreenCloneServerWindow::handleTimerEvent()
 {
+    qint64 nowTime = QDateTime::currentMSecsSinceEpoch();
+    if (lastTime_>0)
+    {
+        qDebug() << "Sleep Time:" << nowTime - lastTime_;
+    }
+
+    lastTime_ = nowTime;
+
    // qDebug() << "Handle Timer event";
    processImageEvent(false);
 }
