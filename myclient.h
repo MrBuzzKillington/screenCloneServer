@@ -25,7 +25,7 @@ public slots:
 
     // make the server fully ascynchronous
     // by doing time consuming task
-    void TaskResult(int Number);
+    //void TaskResult(int Number);
 
 
 private:

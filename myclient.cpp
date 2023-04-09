@@ -61,14 +61,14 @@ void MyClient::readyRead()
 
 // After a task performed a time consuming task.
 // We grab the result here, and send it to client
-void MyClient::TaskResult(int Number)
-{
-    QByteArray Buffer;
-    Buffer.append("\r\nTask result = ");
-    Buffer.append(QString::number(Number).toUtf8());
+//void MyClient::TaskResult(int Number)
+//{
+//    QByteArray Buffer;
+//    Buffer.append("\r\nTask result = ");
+//    Buffer.append(QString::number(Number).toUtf8());
 
-    socket->write(Buffer);
-}
+//    socket->write(Buffer);
+//}
 
 
 void MyClient::SendImage(QByteArray imgMsg)
@@ -83,6 +83,6 @@ void MyClient::SendImage(QByteArray imgMsg)
         qDebug() << "tried to write to closed socket";
         return;
     }
-qDebug() << "wrote:" << imgMsg.size();
+    qDebug() << "wrote:" << imgMsg.size();
     socket->write(imgMsg);
 }

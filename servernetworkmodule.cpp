@@ -68,8 +68,8 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
      sBuff << (quint16) 0x5C5C;
      sBuff << (qint32) imageSeq_;
      sBuff << (qint32) payloadSize;
-     //sBuff << imageQBA;//.first(payloadSize);
-     sBuff << imageQBA;
+     qDebug() << "sizewas:" << buf.size() << " image:" << imageQBA.size();
+     sBuff << imageQBA;    
 
      for (int i=0;i<clientList_.size();i++)
      {

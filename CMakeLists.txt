@@ -17,8 +17,6 @@ set(PROJECT_SOURCES
         screencloneserverwindow.cpp
         screencloneserverwindow.h
         screencloneserverwindow.ui
-        capturemodule.h
-        capturemodule.cpp
         servernetworkmodule.h
         servernetworkmodule.cpp
         myclient.cpp

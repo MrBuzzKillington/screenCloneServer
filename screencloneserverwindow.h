@@ -2,7 +2,6 @@
 #define SCREENCLONESERVERWINDOW_H
 
 #include <QMainWindow>
-#include "capturemodule.h"
 #include <QGraphicsScene>
 #include "servernetworkmodule.h"
 
@@ -22,13 +21,21 @@ public:
 
 private:
     Ui::ScreenCloneServerWindow *ui;
-    CaptureModule capMod_;
     std::unique_ptr<ServerNetworkModule> netModPtr_;
     std::unique_ptr<QTimer> sendTimer_;
     std::unique_ptr<ServerNetworkModule> Server_;
+    std::unique_ptr<QGraphicsScene> scene_;
+    int capX_;
+    int capY_;
+    int capWidth_;
+    int capHeight_;
+    int totalWidth_;
+    int totalHeight_;
 
     QImage getImage(int &x, int &y, int &width, int &height);
     void processImageEvent(bool preview);
+    void getMaxScreenParams();
+    void updateImageParams();
 
 private slots:
   void handleCaptureButton();
