@@ -14,13 +14,22 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     maintinanceTimer_(),
     Server_(),
     scene_(),
-    capX_(10),
-    capY_(10),
+    capX_(5760),
+    capY_(38),
     capWidth_(1800),
     capHeight_(1024),
+    fps_(5),
     lastTime_(0)
+
 {
     ui->setupUi(this);
+
+    ui->fpsSpinBox_->setValue(fps_);
+    ui->xSpinBox_->setValue(capX_);
+    ui->ySpinBox_->setValue(capY_);
+    ui->widthSpinBox_->setValue(capWidth_);
+    ui->heightSpinBox_->setValue(capHeight_);
+
 
     getMaxScreenParams();
 
@@ -101,8 +110,8 @@ void ScreenCloneServerWindow::handleCaptureButton()
 //Slot to handle a user press of stream button
 void ScreenCloneServerWindow::handleStreamButton()
 {
-    int rate = ui->fpsSpinBox_->value();
-    double sleepTime = (1 / (double)rate) * 1000;
+    fps_ = ui->fpsSpinBox_->value();
+    double sleepTime = (1 / (double)fps_) * 1000;
 
     qDebug() << "Time event butn:" << ui->streamCkBx_->checkState() << " sleep:" << round(sleepTime);
     if (ui->streamCkBx_->checkState() == Qt::Checked)

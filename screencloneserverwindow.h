@@ -32,6 +32,7 @@ private:
     int capHeight_;
     int totalWidth_;
     int totalHeight_;
+    int fps_;
     qint64 lastTime_;
 
     QImage getImage(int &x, int &y, int &width, int &height);

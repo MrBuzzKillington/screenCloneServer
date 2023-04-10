@@ -20,6 +20,7 @@ ServerNetworkModule::~ServerNetworkModule()
 void ServerNetworkModule::StartServer()
 {
     if(listen(QHostAddress::Any, 1234))
+    //if(listen(QHostAddress("192.169.0.1"), 1234))
     {
         qDebug() << "Server: started";
     }
