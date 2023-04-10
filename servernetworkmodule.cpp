@@ -1,5 +1,6 @@
 #include "servernetworkmodule.h"
 #include <QImage>
+#include <QBuffer>
 
 ServerNetworkModule::ServerNetworkModule(QObject *parent, int port):
     QTcpServer(parent),
@@ -42,14 +43,16 @@ void ServerNetworkModule::incomingConnection(qintptr socketId)
 
 void ServerNetworkModule::sendImage( QImage imgToSend )
 {
-   // qDebug() << "send image";
-
+    qDebug() << "send image size:" << imgToSend.sizeInBytes();
     QByteArray imageQBA;
-    bool flag{1};
+    QBuffer buffer(&imageQBA);
+    buffer.open(QIODevice::WriteOnly);
+    imgToSend.save(&buffer, "BMP"); // writes image into ba in PNG format
 
-    QDataStream out(&imageQBA,QIODevice::ReadWrite);
-
-    out << imgToSend << flag;
+    //QByteArray imageQBA;
+    //bool flag{1};
+    //QDataStream out(&imageQBA,QIODevice::ReadWrite);
+    //out << imgToSend << flag;
 
 
      //qDebug() << "image size:" << imageQBA.size();
@@ -71,7 +74,7 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
      sBuff << (qint32) imageSeq_;
      sBuff << (qint32) payloadSize;
      qDebug() << "sizewas:" << buf.size() << " image:" << imageQBA.size();
-     sBuff << imageQBA;    
+     sBuff << imageQBA;
 
      for (int i=0;i<clientList_.size();i++)
      {
@@ -87,3 +90,18 @@ void ServerNetworkModule::sendImage( QImage imgToSend )
 
     imageSeq_++;
 }
+
+  int ServerNetworkModule::getClientCount()
+  {
+      //Purge the client list
+      for (int i=0;i<clientList_.size();i++)
+      {
+          MyClient* tempClient = clientList_.at(0); //get the element
+          clientList_.erase(clientList_.begin()); //remove it from the front
+          if (tempClient->isConnected())
+          {
+              clientList_.push_back(tempClient);
+          }
+      }
+      return clientList_.size();
+  }

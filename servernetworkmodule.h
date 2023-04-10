@@ -17,6 +17,7 @@ public:
     void StartServer();
 
     void sendImage( QImage imgToSend );
+    int getClientCount();
 
 protected:
     void incomingConnection(qintptr socketId);

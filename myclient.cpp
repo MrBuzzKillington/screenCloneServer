@@ -35,6 +35,7 @@ void MyClient::connected()
 // asynchronous
 void MyClient::disconnected()
 {
+
     qDebug() << "Client disconnected";
     socketOpen_ = false;
 }

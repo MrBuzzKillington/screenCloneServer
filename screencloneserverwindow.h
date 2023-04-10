@@ -23,6 +23,7 @@ private:
     Ui::ScreenCloneServerWindow *ui;
     std::unique_ptr<ServerNetworkModule> netModPtr_;
     std::unique_ptr<QTimer> sendTimer_;
+    std::unique_ptr<QTimer> maintinanceTimer_;
     std::unique_ptr<ServerNetworkModule> Server_;
     std::unique_ptr<QGraphicsScene> scene_;
     int capX_;
@@ -42,5 +43,6 @@ private slots:
   void handleCaptureButton();
   void handleStreamButton();
   void handleTimerEvent();
+  void handleMaintTimerEvent();
 };
 #endif // SCREENCLONESERVERWINDOW_H

@@ -11,6 +11,7 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
     ui(new Ui::ScreenCloneServerWindow),
     netModPtr_(),
     sendTimer_(),
+    maintinanceTimer_(),
     Server_(),
     scene_(),
     capX_(10),
@@ -30,6 +31,11 @@ ScreenCloneServerWindow::ScreenCloneServerWindow(QWidget *parent):
 
     sendTimer_.reset(new QTimer(this));
     connect(sendTimer_.get(), &QTimer::timeout, this, &ScreenCloneServerWindow::handleTimerEvent);
+
+    maintinanceTimer_.reset(new QTimer(this));
+    connect(maintinanceTimer_.get(), &QTimer::timeout, this, &ScreenCloneServerWindow::handleMaintTimerEvent);
+    maintinanceTimer_->start(1000);
+
 
     Server_.reset(new ServerNetworkModule(this,1234));
     Server_->StartServer();
@@ -104,9 +110,19 @@ void ScreenCloneServerWindow::handleStreamButton()
         updateImageParams();
         sendTimer_->start( round(sleepTime) ); //ms
         ui->fpsSpinBox_->setEnabled(false);
+        ui->xSpinBox_->setEnabled(false);
+        ui->ySpinBox_->setEnabled(false);
+        ui->widthSpinBox_->setEnabled(false);
+        ui->heightSpinBox_->setEnabled(false);
+        ui->captureBtn_->setEnabled(false);
     } else {
         sendTimer_->stop();
         ui->fpsSpinBox_->setEnabled(true);
+        ui->xSpinBox_->setEnabled(true);
+        ui->ySpinBox_->setEnabled(true);
+        ui->widthSpinBox_->setEnabled(true);
+        ui->heightSpinBox_->setEnabled(true);
+        ui->captureBtn_->setEnabled(true);
     }
 }
 
@@ -127,6 +143,7 @@ void ScreenCloneServerWindow::handleTimerEvent()
 }
 
 
+//set the limites of the screen
 void ScreenCloneServerWindow::getMaxScreenParams()
 {
     QList <QScreen*> screens = QGuiApplication::screens();
@@ -150,6 +167,7 @@ void ScreenCloneServerWindow::getMaxScreenParams()
     }
 }
 
+//update the params of the image
 void ScreenCloneServerWindow::updateImageParams()
 {
 
@@ -180,4 +198,11 @@ void ScreenCloneServerWindow::updateImageParams()
         capHeight_ = totalHeight_ - capY_;
         qWarning() << "Width greater than total screen width";
     }
+}
+
+
+//Timer event to do maintiance things
+void ScreenCloneServerWindow::handleMaintTimerEvent()
+{
+    ui->connectedClients_->setText(QString::number( Server_->getClientCount() ) );
 }
